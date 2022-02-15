@@ -169,7 +169,7 @@ def preprocess(filename, test=False):
 
     mel_list = []
     if not test:
-        wave = audio.load(filename.replace('.mid', '.wav'), config.sample_rate)
+        wave = audio.load(filename.replace('mid', 'wav'), config.sample_rate)
         mel_fn = audio.MelSpectrogram(
             config.sample_rate, config.fft_size, config.hop_size,
             config.mel_size, config.f_min, config.f_max, config.min_level_db)
