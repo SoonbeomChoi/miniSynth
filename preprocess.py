@@ -162,13 +162,13 @@ class MIDISegmenter:
         return note_list, frame_range
 
 
-def preprocess(filename, train=True):
+def preprocess(filename, test=False):
     note = load_midi(filename)
     segmenter_fn = MIDISegmenter(config.sample_rate/config.hop_size)
-    note, frame_range = segmenter_fn.run(note, train)
+    note, frame_range = segmenter_fn.run(note, test)
 
     mel_list = []
-    if train:
+    if not test:
         wave = audio.load(filename.replace('.mid', '.wav'), config.sample_rate)
         mel_fn = audio.MelSpectrogram(
             config.sample_rate, config.fft_size, config.hop_size,
