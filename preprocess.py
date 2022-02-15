@@ -162,25 +162,26 @@ class MIDISegmenter:
         return note_list, frame_range
 
 
-def preprocess(basename):
-    note = load_midi(path.join(config.dataset_path, 'mid', basename + '.mid'))
-    wave = audio.load(path.join(config.dataset_path, 'wav', basename + '.wav'), config.sample_rate)
-
-    mel_fn = audio.MelSpectrogram(
-        config.sample_rate, config.fft_size, config.hop_size,
-        config.mel_size, config.f_min, config.f_max, config.min_level_db)
-    mel = mel_fn(wave)
-
+def preprocess(filename, train=True):
+    note = load_midi(filename)
     segmenter_fn = MIDISegmenter(config.sample_rate/config.hop_size)
-    note, frame_range = segmenter_fn.run(note)
+    note, frame_range = segmenter_fn.run(note, train)
+
     mel_list = []
-    for i in range(len(frame_range)):
-        mel_list.append(mel[..., frame_range[i]])
+    if train:
+        wave = audio.load(filename.replace('.mid', '.wav'), config.sample_rate)
+        mel_fn = audio.MelSpectrogram(
+            config.sample_rate, config.fft_size, config.hop_size,
+            config.mel_size, config.f_min, config.f_max, config.min_level_db)
+        mel = mel_fn(wave)
+        for i in range(len(frame_range)):
+            mel_list.append(mel[..., frame_range[i]])
 
-    data = {'note': note, 'mel': mel_list}
-    data = swap_dict_list(data)
+    data = {'note': note}
+    if len(mel_list) > 0:
+        data['mel'] = mel_list
 
-    return data
+    return swap_dict_list(data)
 
 
 def main():
@@ -195,8 +196,11 @@ def main():
             file_list = f.read().splitlines()
 
         for basename in tqdm(file_list):
-            data = preprocess(basename)
-            torch.save(data, path.join(config.data_path, set_name, basename + '.pt'))
+            savename = path.join(config.data_path, set_name, basename + '.pt')
+            if not path.exists(savename):
+                filename = path.join(config.dataset_path, 'mid', basename + '.mid')
+                data = preprocess(filename)
+                torch.save(data, savename)
 
 
 if __name__ == "__main__":

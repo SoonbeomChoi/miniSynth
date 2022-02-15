@@ -11,7 +11,7 @@ def load(filename, sample_rate):
         resample_fn = torchaudio.transforms.Resample(source_rate, sample_rate)
         audio = resample_fn(audio)
 
-    return audio
+    return audio[0]
 
 
 def to_tensor(x):

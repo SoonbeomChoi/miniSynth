@@ -1,5 +1,6 @@
-dataset_path = "/content/drive/MyDrive/Academic Share/BigEDMViolin"
+dataset_path = "/media/daftpunk3/home/soonbeom/Dataset/URMPPlus/edm_violin"
 data_path = "./data"
+exp_path = "./exp"
 
 min_note = 35
 num_note = 50
