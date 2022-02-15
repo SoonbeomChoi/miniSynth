@@ -1,6 +1,6 @@
 import torch
 from torch.utils.data import Dataset, DataLoader
-from os import path
+from os import listdir, path
 from itertools import islice
 
 import config
@@ -37,10 +37,9 @@ def collate_fn(data):
 
 class AudioMIDIDataset(Dataset):
     def __init__(self, data_path):
-        super(AudioMIDIDataset, self).__init__(data_path)
         self.data = []
-        for filename in data_path:
-            self.data += torch.load(filename)
+        for basename in listdir(data_path):
+            self.data += torch.load(listdir(data_path, basename))
 
     def __getitem__(self, index):
         return self.data[index]
@@ -58,7 +57,7 @@ def load():
     dataloader['train'] = DataLoader(
         dataset['train'], batch_size=config.batch_size,
         shuffle=True, collate_fn=collate_fn, drop_last=False)
-    dataloader['train'] = islice(iter(cycle(dataloader['train']), config.save_step)
+    dataloader['train'] = islice(iter(cycle(dataloader['train']), config.save_step))
     dataloader['test'] = DataLoader(
         dataset['test'], batch_size=1,
         shuffle=False, collate_fn=collate_fn, drop_last=False)
