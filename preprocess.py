@@ -152,7 +152,7 @@ class MIDISegmenter:
                 if self.next_range.start - frame_range.start > self.max_silence:
                     if retain_silence:
                         frame_range.end = self.next_range.start - self.max_silence
-                        self.extend_silence(frame_range)
+                        self.note.extend((frame_range.end - frame_range.start)*[0])
 
                     frame_range.start = self.next_range.start - self.max_silence
 
