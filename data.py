@@ -57,7 +57,7 @@ def load():
     dataloader['train'] = DataLoader(
         dataset['train'], batch_size=config.batch_size,
         shuffle=True, collate_fn=collate_fn, drop_last=False)
-    dataloader['train'] = islice(iter(cycle(dataloader['train'])), config.save_step)
+    dataloader['train'] = iter(cycle(dataloader['train']))
     dataloader['test'] = DataLoader(
         dataset['test'], batch_size=1,
         shuffle=False, collate_fn=collate_fn, drop_last=False)

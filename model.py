@@ -78,12 +78,11 @@ class Model(nn.Module):
         self.decoder = nn.Sequential(
             Conv1d(hidden_size, hidden_size),
             nn.ReLU(),
-            HighwayConv1d(hidden_size, hidden_size, padding="causal", dilation=1, dropout=config.dropout),
-            HighwayConv1d(hidden_size, hidden_size, padding="causal", dilation=3, dropout=config.dropout),
-            HighwayConv1d(hidden_size, hidden_size, padding="causal", dilation=9, dropout=config.dropout),
-            HighwayConv1d(hidden_size, hidden_size, padding="causal", dilation=27, dropout=config.dropout),
-            HighwayConv1d(hidden_size, hidden_size, padding="causal", dilation=1, dropout=config.dropout),
-            HighwayConv1d(hidden_size, hidden_size, padding="causal", dilation=1, dropout=config.dropout),
+            HighwayConv1d(hidden_size, hidden_size, dilation=1, dropout=config.dropout),
+            HighwayConv1d(hidden_size, hidden_size, dilation=3, dropout=config.dropout),
+            HighwayConv1d(hidden_size, hidden_size, dilation=9, dropout=config.dropout),
+            HighwayConv1d(hidden_size, hidden_size, dilation=27, dropout=config.dropout),
+            HighwayConv1d(hidden_size, hidden_size, dilation=1, dropout=config.dropout),
             Conv1d(hidden_size, hidden_size),
             nn.ReLU(),
             Conv1d(hidden_size, config.mel_size))
