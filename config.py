@@ -1,4 +1,3 @@
-dataset_path = "/media/daftpunk3/home/soonbeom/Dataset/URMPPlus/edm_violin"
 data_path = "./data"
 exp_path = "./exp"
 

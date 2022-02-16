@@ -184,7 +184,7 @@ def preprocess(filename, test=False):
     return swap_dict_list(data)
 
 
-def main():
+def run(dataset_path):
     if not path.exists(path.join(config.data_path, 'train')):
         mkdir(path.join(config.data_path, 'train'))
     if not path.exists(path.join(config.data_path, 'test')):
@@ -198,10 +198,10 @@ def main():
         for basename in tqdm(file_list):
             savename = path.join(config.data_path, set_name, basename + '.pt')
             if not path.exists(savename):
-                filename = path.join(config.dataset_path, 'mid', basename + '.mid')
+                filename = path.join(dataset_path, 'mid', basename + '.mid')
                 data = preprocess(filename)
                 torch.save(data, savename)
 
 
 if __name__ == "__main__":
-    main()
+    run()
