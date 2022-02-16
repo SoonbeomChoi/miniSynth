@@ -15,7 +15,7 @@ min_level_db = -80.0
 
 model_size = 256
 dropout = 0.1
-batch_size = 8
+batch_size = 4
 learning_rate = 0.0001
 save_step = 10000
 stop_step = 100000
